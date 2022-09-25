@@ -1,0 +1,19 @@
+.card{
+    padding: 20px;
+}
+.card-header{
+    background: red;
+    color: white;
+}
+.form-control{
+    border: 1px solid red;
+}
+.btn{
+    background: red;
+    color: white;
+   
+}
+.btn:hover{
+    background: white;
+    color: red;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Schedule</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+<style>
+    .card{
+        padding: 20px;
+    }
+    .card-header{
+        background: red;
+        color: white;
+    }
+    .form-control{
+        border: 1px solid red;
+    }
+    .btn{
+        margin: 20px;
+        background: red;
+        color: white;
+        float: right;
+    }
+    .btn:hover{
+        background: white;
+        color: red;
+    }
+</style>
+</head>
+<body>
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>Input Schedule Details</h1> 
+        </div>
+        <div class="card-body">
+    <form action="/insert_schedule/" method="POST" >
+        {%csrf_token %}
+
+        <div class="row">
+            <div class="col">
+                <label>Schedule Id</label>
+                <input type="text" name="schedule_id" class="form-control" placeholder="Text" required>
+            </div>
+            <div class="col">
+                <label>Schedule Name</label>
+                <input type="text" name="schedule_name" class="form-control" placeholder="Text" required>
+            </div>
+        </div>
+         <div class="row">
+             <div class="col">
+                <label>Duration</label>
+                <input type="text" name="duration" class="form-control" placeholder="Numbers in mins" required>
+             </div>
+             <div class="col">
+                <label>Schedule Date</label>
+                <input type="date" name="schedule_date" class="form-control" placeholder="Date only" required>
+            </div>
+            <div class="col">
+                <label>Year</label>
+                <input type="number" name="year" class="form-control"  placeholder= "Year only" required>
+            </div>
+         </div>
+<div class="row">
+    <div class="col">
+        <label>Circuit Serial</label>
+        <select name="circuit_serial" required class="form-control">
+            <option disabled="true" selected>---Select Circuit---</option>
+            {% for i in circuits %}
+            <option value="{{i.circuit_serial}}">{{i.circuit_name}}</option>
+            {% endfor %}
+            </select>
+    </div>
+
+</div>
+        
+
+        <input type="submit" value="Submit" class="btn">
+        <input type="reset" value="Reset" class="btn">
+        
+        
+        {% if messages %}
+        {% for result in messages%}
+        <h3>{{result}}</h3>
+        {% endfor %}
+        {% endif %}
+
+    </form>
+</div>
+
+</div>
+
+</body>
+</html>

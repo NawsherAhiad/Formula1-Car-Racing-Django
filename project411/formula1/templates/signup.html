@@ -1,0 +1,150 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="{% static 'navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'card.css' %}">
+<style>
+.card{
+    padding: 20px;
+    width: 70%;
+    margin-left: 250px;
+    margin-top: 20px;
+}
+.btn-custom{
+    margin-top: 20px;
+}
+</style>
+</head>
+<body>
+
+    <nav class="navbar navbar-custom navbar-expand-sm">
+        <a href = "/index" class="navbar-brand"><img src="{% static 'logo.png'%}" style="width: 40%;"></a>
+        <button class="navbar-toggler custom-toggler" data-toggle="collapse" data-target="#menu">
+             <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="menu">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a href = "/index" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/report_driver" class="nav-link">Drivers</a>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Standings
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="/report_standing/all">All Standings</a>
+                            {% for i in standings%}
+                            <a class="dropdown-item" href="/report_standing/{{i.schedule_id}}">{{i.schedule_name}}</a>
+                            {% endfor %}
+                          </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <div class="dropdown">
+                        <a class="btn btn-danger dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Schedule
+                          </a>
+                          <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            <a class="dropdown-item" href="/report_schedule/all">All Schedules</a>
+                            {% for i in schedules%}
+                            <a class="dropdown-item" href="/report_schedule/{{i.year}}">{{i.year}}</a>
+                            {% endfor %}
+                          </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="/report_team" class="nav-link">Team</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/report_circuit" class="nav-link">Circuit</a>
+                </li>
+                <li class="nav-item" >
+                    <a href="" class="nav-link">Tickets</a> 
+                </li>
+                <li class="nav-item">
+                    <a href="/report_merch" class="nav-link">Shop Now</a>
+                </li>
+                {% if current_user and user_rank == "admin" %}
+                <li class="nav-item">
+                    <a href="/admin_page" class="nav-link">Admin</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/signout" class="nav-link">Signout</a>
+                </li>
+                {% elif current_user and user_rank == "user" %}
+                <li class="nav-item">
+                    <a href="/signout" class="nav-link">Signout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="/signup" class="nav-link">Signup</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/signin" class="nav-link">Signin</a>
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+        </nav>
+    <div class="card">
+        <div class="card-header text-center">
+            <h1>SIGN UP</h1>
+        </div>
+        <div class="card-body">
+   
+    <form action="/signup/" method="POST">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+                <label>User Name</label>
+                <input type="text" name="user_name" placeholder="Enter Name" class="form-control" required>
+            </div>
+            <div class="col">
+                <label>Email</label>
+                <input type="email" name="user_email" placeholder="Enter Email" class="form-control" required>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Password </label>
+                <input type="password" name="user_password" class="form-control" placeholder="Enter Password" required onchange="form.confirm_password.pattern=this.value">
+            </div>
+            <div class="col">
+                <label>Confirm Password </label>
+                <input type="password" name="confirm_password" class="form-control" placeholder="Confirm Password" required>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <label>Phone</label>
+                <input type="number" name="user_phone" class="form-control" placeholder="Enter phone number">
+            </div>
+        </div>
+   
+
+        <input type="submit" value="Sign Up" class="btn btn-block btn-custom">
+    </form>
+
+    {% if messages %}
+        {% for result in messages%}
+        <h3>{{result}}</h3>
+        {% endfor %}
+        {% endif %}
+</body>
+</html>
